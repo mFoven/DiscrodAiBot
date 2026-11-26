@@ -1,0 +1,39 @@
+import discord
+import openai
+from discord.ext import commands
+
+#Настройка ИИ
+Name = "" #Здесь будет имя вашего бота, если вы напишите это имя то сможете обратиться
+instructions = "" #Здесь вы можете написать поведения для вашего бота
+
+YANDEX_CLOUD_FOLDER = "b1gu8jsko1aq1qppdie0"
+YANDEX_CLOUD_API_KEY = "" #Здесь ваш Api ключ, его можно получить в yandex cloude
+YANDEX_CLOUD_MODEL = "aliceai-llm-flash/latest"
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    words = message.content.split()
+    if Name in message.content:
+        client = openai.OpenAI(
+            api_key=YANDEX_CLOUD_API_KEY,
+            base_url="https://ai.api.cloud.yandex.net/v1",
+            project=YANDEX_CLOUD_FOLDER
+        )
+        response = client.responses.create(
+            model=f"gpt://{YANDEX_CLOUD_FOLDER}/{YANDEX_CLOUD_MODEL}",
+            temperature=0.05,
+            instructions=instructions,
+            input=message.content,
+            max_output_tokens=1500
+        )
+        await message.channel.send(response.output_text)
+
+
+bot.run("") #Токен вашего бота в дискорде, его можно получить в discord developer portal
