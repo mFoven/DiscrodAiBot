@@ -3,7 +3,7 @@ import openai
 from discord.ext import commands
 
 #Настройка ИИ
-Name = "" #Здесь будет имя вашего бота, если вы напишите это имя то сможете обратиться
+Name = "" #Здесь будет имя вашего бота, если вы напишите в Discord сервер это имя, то сможете обратиться
 instructions = "" #Здесь вы можете написать поведения для вашего бота
 
 YANDEX_CLOUD_FOLDER = "b1gu8jsko1aq1qppdie0"
